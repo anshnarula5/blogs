@@ -3,7 +3,7 @@ import "./form.css";
 import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
 import { createBlog } from "../../api";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 const Form = () => {
   const [blogData, setBlogData] = useState({
     title: "",
@@ -12,17 +12,17 @@ const Form = () => {
     message: "",
     image: "",
   });
+  const history = useHistory();
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(blogData);
-    dispatch(createBlog(blogData));
+    history.push("/blogs")
+    dispatch(createBlog({ blogData }));
   };
   return (
     <div class="w-md-75 mx-md-auto my-3 border rounded p-5 shadow ">
-      <h1 className="display-2 text-center mb-3">
-        Add blog
-      </h1>
+      <h1 className="display-2 text-center mb-3">Add blog</h1>
       <form>
         <div className="row">
           <div class="col-md form-outline mb-4">
@@ -64,7 +64,11 @@ const Form = () => {
           </label>
           <div>
             <textarea
-              style={{minWidth: "100%", minHeight  :"30rem", padding : "1.5rem"}}
+              style={{
+                minWidth: "100%",
+                minHeight: "30rem",
+                padding: "1.5rem",
+              }}
               id="description"
               type="text"
               value={blogData.message}
@@ -84,7 +88,7 @@ const Form = () => {
             <input
               type="text"
               id="Tags"
-              placeholder = "(Space separated)"
+              placeholder="(Space separated)"
               class="form-control"
               value={blogData.tags}
               onChange={(e) =>
@@ -99,21 +103,19 @@ const Form = () => {
             </label>
             <div>
               <FileBase
-              type="file"
-              multiple={false}
-              onDone={({ base64 }) =>
-                setBlogData({ ...blogData, image: base64 })
-              }
-            />
+                type="file"
+                multiple={false}
+                onDone={({ base64 }) =>
+                  setBlogData({ ...blogData, image: base64 })
+                }
+              />
             </div>
           </div>
         </div>
         <div class="flex items-center justify-between">
-          <Link to="/blogs">
-            <button class="btn btn-primary" onClick={handleSubmit}>
-              Add
-            </button>
-          </Link>
+          <button class="btn btn-primary" onClick={handleSubmit}>
+            Add
+          </button>
         </div>
       </form>
     </div>

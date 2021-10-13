@@ -13,7 +13,7 @@ function App() {
       <Switch>
         <div className="container">
           <Route exact path="/blogs" component={Blogs} />
-          <Route exact path="/blogs/create" component={Form} />
+          <Route exact path="/create" component={Form} />
           <Route exact path="/blogs/:id/update" component={Update} />
           <Route exact path="/blogs/:id" component={Detail} />
           <Route exact path="/auth" component={Auth} />

@@ -53,9 +53,17 @@ export const updateBlog = async (req, res) => {
 export const likeBlog = async (req, res) => {
   const {id} = req.params
   try {
+    if(!req.userId) return res.json({message : "Not authenticated"})
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No Blog found")
     const blog = await Blog.findById(id)
-    const updatedBlog = await Blog.findByIdAndUpdate(id, {likeCount : blog.likeCount + 1}, {new : true});
+    const index = blog.likes.findIndex(id => id === String(req.userId))
+    if (index === -1) {
+      blog.likes.push(req.userId)
+    }
+    else {
+      blog.likes = blog.likes.filter(blog => blog.id !== String(req.userId))
+    }
+    const updatedBlog = await Blog.findByIdAndUpdate(id, blog, {new : true});
     res.json(updatedBlog);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
+import {useHistory} from "react-router";
+const initialState = {firstName: '', lastName: "", email: "", password: "", confirmPassword : ""}
 const Auth = () => {
   const [toggle, setToggle] = useState(true);
+  const [formData, setFormData] = useState(initialState)
   const handleToggle = () => {
     setToggle((prev) => !prev);
   };
   const dispatch = useDispatch();
+  const history = useHistory();
   const successGoogle = async (res) => {
     const result = res?.profileObj;
     const token = res?.tokenId;
     try {
       dispatch({ type: "AUTH", payload: { result, token } });
+      history.push("/blogs");
     } catch (error) {
       console.log(error);
     }
@@ -19,6 +24,12 @@ const Auth = () => {
   const failureGoogle = () => {
     console.log("Google sign in failure");
   };
+  const handleSubmit = () => {
+    console.log(formData)
+  }
+  const handleChange = (e) => {
+    setFormData({...formData, [e.target.name] : e.target.value})
+  }
   return (
     <div className="row mt-4 px-1">
       <div className="border shadow col-md-5 offset-md-3 p-4">
@@ -29,16 +40,16 @@ const Auth = () => {
           <div class="row mb-4">
             <div class="col">
               <div class="form-outline">
-                <input type="text" id="form3Example1" class="form-control" />
-                <label class="form-label" for="form3Example1">
+                <input name = "firstName" type="text" id="firstName" class="form-control" onChange={handleChange}/>
+                <label class="form-label" for="firstName">
                   First name
                 </label>
               </div>
             </div>
             <div class="col">
               <div class="form-outline">
-                <input type="text" id="form3Example2" class="form-control" />
-                <label class="form-label" for="form3Example2">
+                <input name = "lastName" type="text" id="lastName" class="form-control" onChange={handleChange}/>
+                <label class="form-label" for="lastName">
                   Last name
                 </label>
               </div>
@@ -46,23 +57,23 @@ const Auth = () => {
           </div>
         )}
         <div class="form-outline mb-4">
-          <input type="email" id="form1Example1" class="form-control" />
-          <label class="form-label" for="form1Example1">
+          <input name = "email" type="email" id="email" class="form-control" onChange={handleChange}/>
+          <label class="form-label" for="email">
             Email address
           </label>
         </div>
 
         <div class="form-outline mb-4">
-          <input type="password" id="form1Example2" class="form-control" />
-          <label class="form-label" for="form1Example2">
+          <input name = "password" type="password" id="password" class="form-control" onChange={handleChange}/>
+          <label class="form-label" for="password">
             Password
           </label>
         </div>
         {!toggle && (
           <div class="form-outline mb-4">
-            <input type="password" id="form1Example2" class="form-control" />
-            <label class="form-label" for="form1Example2">
-              Repeat Password
+            <input name = "confirmPassword" type="password" id="confirmPassword" class="form-control" onChange={handleChange}/>
+            <label class="form-label" for="confirmPassword">
+              Confirm Password
             </label>
           </div>
         )}
@@ -99,6 +110,9 @@ const Auth = () => {
               {toggle ? " Sign Up" : " Sign In"}
             </a>
           </p>
+          <a class="btn btn-primary mt-2 px-5" onClick = {handleSubmit}>
+            {!toggle ? " Sign Up" : " Sign In"}
+          </a>
           <GoogleLogin
             clientId="1091410579943-8he3pma3mhj2k8rk5lohplumqu8ksbvm.apps.googleusercontent.com"
             onSuccess={successGoogle}
@@ -113,9 +127,6 @@ const Auth = () => {
               </button>
             )}
           />
-          <a class="btn btn-primary mt-2 px-5">
-            {!toggle ? " Sign Up" : " Sign In"}
-          </a>
         </div>
       </div>
     </div>

@@ -16,37 +16,36 @@ const Blog = ({ blog }) => {
     dispatch(deleteBlog(blog._id));
   };
   const handleLike = () => {
-    dispatch(likeBlog(blog._id))
-  }
+    dispatch(likeBlog(blog._id));
+  };
 
   let image = "";
   !blog.image ? (image = noimage) : (image = blog.image);
   return (
-    <div class="card m-bd-3 my-3 shadow " style={{ maxWidth: "700px" }}>
+    <div class="card m-bd-3 my-3 shadow " style={{ maxWidth: "800px" }}>
       <div class="row g-0">
-        <div
-          class="col-md-4"
-          style={{
-            backgroundImage: `url(${image})`,
-            height: "250px",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroudPosition: "center",
-          }}
-        ></div>
+          <div
+            class="col-md-4"
+            style={{
+              backgroundImage: `url(${image})`,
+              height: "250px",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroudPosition: "center",
+            }}
+          ></div>
         <div class="col-md-8">
           <div class="card-body d-flex flex-column align-items-center">
-            <h5 class="card-title fs-3">{blog.title}</h5>
+            <h5 class="card-title fs-3"><Link to = {`/blogs/${blog._id}`} style = {{textDecoration : "none"}}>{blog.title}</Link></h5>
             <p class="card-text">
               {blog.message.split("").length >= 110
-                ? blog.message.split("").slice(0, 110).join("")
+                ? blog.message.split("").slice(0, 110).join("") + "..."
                 : blog.message}{" "}
-              <Link to="/blogs">Read more</Link>
             </p>
 
             <div class=" align-self-start">
               {tags.map((tag) => (
-                <span class="border p-1  rounded bg-muted mx-2 ">#{tag}</span>
+                <span class="border p-1 rounded bg-muted mx-2 ">#{tag}</span>
               ))}
             </div>
           </div>
@@ -57,20 +56,30 @@ const Blog = ({ blog }) => {
             />
             <p class="fw-bold -mb-3">{blog.author}</p>
             <p class="fw-light fst-italic">{moment(blog.date).fromNow()}</p>
-            <div className="like">
-              <h3 onClick={handleLike} style={{cursor: "pointer"}}>{blog.likeCount === 0 ? <i class="far fa-thumbs-up " ></i> : <i class="fas fa-thumbs-up " ></i>}</h3>
+            <div className="like border p-1">
+              <h3
+                onClick={handleLike}
+                style={{ cursor: "pointer" }}
+                className="d-inline mx-2"
+              >
+                {blog.likeCount === 0 ? (
+                  <i class="far fa-thumbs-up "></i>
+                ) : (
+                  <i class="fas fa-thumbs-up "></i>
+                )}
+              </h3>
               <p className="d-inline">{blog.likeCount}</p>
             </div>
             <div className="d-flex justify-content-between ">
-                <button onClick={handleDelete} className="mr-3 btn  btn-danger">
-                  Delete
-                </button>
-                <Link to={`/blogs/${blog._id}/update`}>
-                  <button className="mr-3 btn btn-warning">Update</button>
-                </Link>
+              <Link to={`/blogs/${blog._id}/update`}>
+                <button className="mr-3 btn btn-warning">Update</button>
+              </Link>
+              <button onClick={handleDelete} className="mx-1 btn  btn-danger">
+                Delete
+              </button>
             </div>
           </div>
-         
+
           {/* <div className="buttons d-flex justify-content-around mt-2">
             <div className="left ">
               <p class="card-text">

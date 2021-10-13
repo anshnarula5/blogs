@@ -1,6 +1,7 @@
 const blogs = (blogs = [], action) => {
     switch (action.type) {
         case "FETCH_BLOGS":
+        case "FETCH_BLOG":
             return action.payload
         case "CREATE":
             return [...blogs, action.payload]

@@ -8,6 +8,14 @@ export const fetchBlogs = () => async (dispatch) => {
         console.log(error)
     }
 }
+export const fetchBlog = (id) => async (dispatch) => {
+    try {
+        const {data} = await api.fetchBlog()
+        dispatch({type : "FETCH_BLOG", payload : data})
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const createBlog = (blog) => async (dispatch) => {
     try {

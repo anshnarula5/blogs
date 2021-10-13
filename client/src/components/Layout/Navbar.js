@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">
           Navbar
@@ -37,6 +37,9 @@ export default function Navbar() {
               </a>
             </li>
           </ul>
+          <div className="mx-auto">
+            <Link to="/auth">Auth</Link>
+          </div>
         </div>
       </div>
     </nav>

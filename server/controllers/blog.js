@@ -9,6 +9,15 @@ export const getBlogs = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const getBlog = async (req, res) => {
+  try {
+    const {id} = req.params
+    const blog = await Blog.findById(id);
+    res.json(blog);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 export const postBlog = async (req, res) => {
   const blog = req.body
   const newBlog = new Blog(blog);

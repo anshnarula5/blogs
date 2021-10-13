@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
+import { useDispatch } from "react-redux";
 const Auth = () => {
   const [toggle, setToggle] = useState(true);
   const handleToggle = () => {
     setToggle((prev) => !prev);
   };
+  const dispatch = useDispatch();
   const successGoogle = async (res) => {
-    console.log(res);
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+    try {
+      dispatch({ type: "AUTH", payload: { result, token } });
+    } catch (error) {
+      console.log(error);
+    }
   };
   const failureGoogle = () => {
     console.log("Google sign in failure");
@@ -95,6 +103,15 @@ const Auth = () => {
             clientId="1091410579943-8he3pma3mhj2k8rk5lohplumqu8ksbvm.apps.googleusercontent.com"
             onSuccess={successGoogle}
             onFailure={failureGoogle}
+            render={(renderedProps) => (
+              <button
+                className="btn btn-secondary mt-2 px-4"
+                onClick={renderedProps.onClick}
+                disabled={renderedProps.disabled}
+              >
+                Sign in with <i class="fab fa-google"></i>
+              </button>
+            )}
           />
           <a class="btn btn-primary mt-2 px-5">
             {!toggle ? " Sign Up" : " Sign In"}

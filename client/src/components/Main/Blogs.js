@@ -21,24 +21,24 @@ const Blogs = () => {
         </div>
       </div>
       <div className="col-md-3 ">
-        <div class="card mt-5 sticky-top" style={{ top: "2rem" }}>
-          <div class="card-body">
+        <div className="card mt-5 sticky-top" style={{ top: "2rem" }}>
+          <div className="card-body">
             {user && (
-              <div class="d-flex flex-column align-items-center text-center">
+              <div className="d-flex flex-column align-items-center text-center">
                 <img
                   src={user.result.imageUrl}
                   alt="Admin"
-                  class="rounded-circle"
+                  className="rounded-circle"
                   width="120"
                 />
-                <div class="mt-3">
+                <div className="mt-3">
                   <h4>{user.result.name}</h4>
-                  <p class="text-secondary mb-1">Full Stack Developer</p>
-                  <p class="text-muted font-size-sm">
+                  <p className="text-secondary mb-1">Full Stack Developer</p>
+                  <p className="text-muted font-size-sm">
                     Bay Area, San Francisco, CA
                   </p>
-                  <button class="btn btn-primary">Follow</button>
-                  <button class="btn btn-outline-primary">Message</button>
+                  <button className="btn btn-primary">Follow</button>
+                  <button className="btn btn-outline-primary">Message</button>
                 </div>
               </div>
             )}

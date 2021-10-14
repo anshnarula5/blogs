@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GoogleLogin from "react-google-login";
 import { useDispatch } from "react-redux";
 import {useHistory} from "react-router";
+import {signin, signup} from "../../redux/actions/auth";
 const initialState = {firstName: '', lastName: "", email: "", password: "", confirmPassword : ""}
 const Auth = () => {
   const [toggle, setToggle] = useState(true);
@@ -15,7 +16,7 @@ const Auth = () => {
     const result = res?.profileObj;
     const token = res?.tokenId;
     try {
-      dispatch({ type: "AUTH", payload: { result, token } });
+      dispatch({ type: "AUTH", data: { result, token } });
       history.push("/blogs");
     } catch (error) {
       console.log(error);
@@ -25,11 +26,16 @@ const Auth = () => {
     console.log("Google sign in failure");
   };
   const handleSubmit = () => {
-    console.log(formData)
+    if (toggle) {
+      dispatch(signin(formData, history))
+    } else {
+      dispatch(signup(formData, history))
+    }
   }
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name] : e.target.value})
   }
+
   return (
     <div className="row mt-4 px-1">
       <div className="border shadow col-md-5 offset-md-3 p-4">
@@ -37,65 +43,65 @@ const Auth = () => {
           {toggle ? "Sign In" : "Sign Up"}
         </div>
         {!toggle && (
-          <div class="row mb-4">
-            <div class="col">
-              <div class="form-outline">
-                <input name = "firstName" type="text" id="firstName" class="form-control" onChange={handleChange}/>
-                <label class="form-label" for="firstName">
+          <div className="row mb-4">
+            <div className="col">
+              <div className="form-outline">
+                <input name = "firstName" type="text" id="firstName" className="form-control" onChange={handleChange}/>
+                <label className="form-label" for="firstName">
                   First name
                 </label>
               </div>
             </div>
-            <div class="col">
-              <div class="form-outline">
-                <input name = "lastName" type="text" id="lastName" class="form-control" onChange={handleChange}/>
-                <label class="form-label" for="lastName">
+            <div className="col">
+              <div className="form-outline">
+                <input name = "lastName" type="text" id="lastName" className="form-control" onChange={handleChange}/>
+                <label className="form-label" for="lastName">
                   Last name
                 </label>
               </div>
             </div>
           </div>
         )}
-        <div class="form-outline mb-4">
-          <input name = "email" type="email" id="email" class="form-control" onChange={handleChange}/>
-          <label class="form-label" for="email">
+        <div className="form-outline mb-4">
+          <input name = "email" type="email" id="email" className="form-control" onChange={handleChange}/>
+          <label className="form-label" for="email">
             Email address
           </label>
         </div>
 
-        <div class="form-outline mb-4">
-          <input name = "password" type="password" id="password" class="form-control" onChange={handleChange}/>
-          <label class="form-label" for="password">
+        <div className="form-outline mb-4">
+          <input name = "password" type="password" id="password" className="form-control" onChange={handleChange}/>
+          <label className="form-label" for="password">
             Password
           </label>
         </div>
         {!toggle && (
-          <div class="form-outline mb-4">
-            <input name = "confirmPassword" type="password" id="confirmPassword" class="form-control" onChange={handleChange}/>
-            <label class="form-label" for="confirmPassword">
+          <div className="form-outline mb-4">
+            <input name = "confirmPassword" type="password" id="confirmPassword" className="form-control" onChange={handleChange}/>
+            <label className="form-label" for="confirmPassword">
               Confirm Password
             </label>
           </div>
         )}
 
-        <div class="row mb-4">
-          <div class="col d-flex justify-content-center">
-            <div class="form-check">
+        <div className="row mb-4">
+          <div className="col d-flex justify-content-center">
+            <div className="form-check">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value=""
                 id="form1Example3"
                 checked
               />
-              <label class="form-check-label" for="form1Example3">
+              <label className="form-check-label" for="form1Example3">
                 {" "}
                 Remember me{" "}
               </label>
             </div>
           </div>
 
-          <div class="col">
+          <div className="col">
             <a href="#!">Forgot password?</a>
           </div>
         </div>
@@ -110,7 +116,7 @@ const Auth = () => {
               {toggle ? " Sign Up" : " Sign In"}
             </a>
           </p>
-          <a class="btn btn-primary mt-2 px-5" onClick = {handleSubmit}>
+          <a className="btn btn-primary mt-2 px-5" onClick = {handleSubmit}>
             {!toggle ? " Sign Up" : " Sign In"}
           </a>
           <GoogleLogin
@@ -123,7 +129,7 @@ const Auth = () => {
                 onClick={renderedProps.onClick}
                 disabled={renderedProps.disabled}
               >
-                Sign in with <i class="fab fa-google"></i>
+                Sign in with <i className="fab fa-google"></i>
               </button>
             )}
           />

@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get("/", getBlogs)
 router.get("/:id", auth, getBlog)
-router.post("/", auth,  postBlog)
+router.post("/",  postBlog)
 router.delete("/:id", auth, deleteBlog)
 router.patch("/:id", auth, updateBlog)
 router.patch("/:id/like", auth, likeBlog)
